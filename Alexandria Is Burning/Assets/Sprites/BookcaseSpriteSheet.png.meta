@@ -1,0 +1,143 @@
+fileFormatVersion: 2
+guid: ebef54a9c5a139f48ab5d8ee6fdb4b43
+timeCreated: 1431237399
+licenseType: Free
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: Bookcase Top
+    21300002: Bookcase Back
+    21300004: Bookcase Shelf
+    21300006: Bookcase Bottom
+    21300008: Bookcase Left Bottom
+    21300010: Bookcase Left Middle
+    21300012: Bookcase Right Bottom
+    21300014: Bookcase Right Middle
+  serializedVersion: 2
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    linearTexture: 0
+    correctGamma: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: .25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 0
+  cubemapConvolution: 0
+  cubemapConvolutionSteps: 8
+  cubemapConvolutionExponent: 1.5
+  seamlessCubemap: 0
+  textureFormat: -1
+  maxTextureSize: 2048
+  textureSettings:
+    filterMode: 1
+    aniso: -1
+    mipBias: -1
+    wrapMode: 1
+  nPOTScale: 0
+  lightmap: 0
+  rGBM: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: .5, y: .5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 100
+  alphaIsTransparency: 1
+  textureType: 8
+  buildTargetSettings: []
+  spriteSheet:
+    sprites:
+    - name: Bookcase Top
+      rect:
+        serializedVersion: 2
+        x: 111
+        y: 358
+        width: 504
+        height: 24
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Bookcase Back
+      rect:
+        serializedVersion: 2
+        x: 123
+        y: 226
+        width: 480
+        height: 96
+      alignment: 6
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Bookcase Shelf
+      rect:
+        serializedVersion: 2
+        x: 123
+        y: 187
+        width: 480
+        height: 12
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Bookcase Bottom
+      rect:
+        serializedVersion: 2
+        x: 111
+        y: 132
+        width: 504
+        height: 24
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Bookcase Left Bottom
+      rect:
+        serializedVersion: 2
+        x: 99
+        y: 226
+        width: 12
+        height: 96
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Bookcase Left Middle
+      rect:
+        serializedVersion: 2
+        x: 67
+        y: 220
+        width: 12
+        height: 108
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Bookcase Right Bottom
+      rect:
+        serializedVersion: 2
+        x: 615
+        y: 226
+        width: 12
+        height: 96
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Bookcase Right Middle
+      rect:
+        serializedVersion: 2
+        x: 648
+        y: 220
+        width: 12
+        height: 108
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+  spritePackingTag: 
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

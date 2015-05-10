@@ -1,32 +1,59 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
-[ExecuteInEditMode]
 public class Grid : MonoBehaviour 
 {
-    public float m_GridWidth = 32.0f;
-    public float m_GridHeight = 32.0f;
+    public int m_Width = 5;
+    public int m_Height = 6;
+    public int m_Counter = 0;
+    private float m_HorizontalSpacing;
+    private float m_VerticalSpacing;
+    public GameObject m_GridCell;
+    public GameObject m_ShelfObject;
 
-    public Color m_GridColor = Color.white;
+    private GameObject[,] m_Grid;
 
+    public List<CellInfo> listOfGridCellInfo = new List<CellInfo>();
 
-    void OnDrawGizmos()
+	void Start () 
     {
-        Vector3 pos = Camera.current.transform.position;
-        Gizmos.color = m_GridColor;
+        m_Grid = new GameObject[m_Width, m_Height];
+        m_HorizontalSpacing = m_GridCell.GetComponent<SpriteRenderer>().bounds.size.x;
+        m_VerticalSpacing = m_ShelfObject.GetComponent<SpriteRenderer>().bounds.size.y + m_GridCell.GetComponent<SpriteRenderer>().bounds.size.y;
+        GenerateGrid();
+	}
 
-        for (float y = pos.y - 800.0f; y < pos.y + 800.0f; y += m_GridHeight)
+    private void GenerateGrid()
+    {
+        for (int y = 0; y < m_Height; ++y)
         {
-            Gizmos.DrawLine(new Vector3(-1000000.0f, Mathf.Floor(y / m_GridHeight) * m_GridHeight, 0.0f),
-                            new Vector3(1000000.0f, Mathf.Floor(y / m_GridHeight) * m_GridHeight, 0.0f));
-        }
+            for (int x = 0; x < m_Width; ++x)
+            {
+                Vector3 offset = new Vector3(x * m_HorizontalSpacing, y * m_VerticalSpacing, 0.0f);
 
-        for (float x = pos.x - 1200.0f; x < pos.x + 1200.0f; x += m_GridWidth)
-        {
-            Gizmos.DrawLine(new Vector3(Mathf.Floor(x / m_GridWidth) * m_GridWidth, -1000000.0f, 0.0f),
-                            new Vector3(Mathf.Floor(x / m_GridWidth) * m_GridWidth, 1000000.0f, 0.0f));
+                GameObject gridObj = (GameObject)GameObject.Instantiate(m_GridCell);
+
+                gridObj.transform.position = offset + transform.position;
+                gridObj.transform.parent = transform;
+
+                gridObj.GetComponent<SpriteRenderer>().sprite = listOfGridCellInfo[m_Counter].sprite;
+
+                if(listOfGridCellInfo[m_Counter].sprite != null)
+                {
+                    gridObj.GetComponent<SpriteRenderer>().sprite = listOfGridCellInfo[m_Counter].sprite;
+                    gridObj.GetComponent<GridCell>().m_IsABook = true;
+
+                }
+
+                m_Grid[x, y] = gridObj;
+                m_Counter++;
+            }
         }
     }
 
+    void Update()
+    {
 
+    }
 }
