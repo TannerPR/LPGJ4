@@ -7,13 +7,21 @@ public class GridCell : MonoBehaviour
     public bool m_IsOnFire = false;
     public bool m_HasStartedSmoking = false;
 
-    public bool m_Test = false;
-
     public float m_TimeToSwitchFromSmokeToFire = 5.0f;
     public float m_TimeToSwitchFromFireToInferno = 5.0f;
 
     private float m_SmokeTimer;
     private float m_FireTimer;
+
+    public GameObject m_SmokeEmitterObject;
+    public GameObject m_SmallFireEmitterObject;
+    public GameObject m_LargeFireEmitterObject;
+
+    private GameObject m_SmokeEmitter;
+    private GameObject m_SmallFireEmitter;
+    private GameObject m_LargeFireEmitter;
+
+    private GameObject m_Emitter;
 
     public enum BookState
     {
@@ -36,12 +44,6 @@ public class GridCell : MonoBehaviour
         if (!m_IsABook)
         {
             return;
-        }
-
-        if (m_Test)
-        {
-            ChangeBookState(BookState.Smoking);
-            m_Test = false;
         }
 
         switch (m_CurrentBookState)
@@ -85,14 +87,26 @@ public class GridCell : MonoBehaviour
             case BookState.Smoking: ;
                 m_IsOnFire = false;
                 m_HasStartedSmoking = true;
-                GetComponent<SpriteRenderer>().color = Color.gray;
+                m_SmokeEmitter = (GameObject)Instantiate(m_SmokeEmitterObject, transform.position, Quaternion.identity);
+                m_SmokeEmitter.transform.position = new Vector3(
+                    m_SmokeEmitter.transform.position.x + GetComponent<SpriteRenderer>().bounds.size.x / 2,
+                    m_SmokeEmitter.transform.position.y + GetComponent<SpriteRenderer>().bounds.size.y / 2,
+                    -0.1f);
                 break;
             case BookState.OnFire:
                 m_IsOnFire = true;
-                GetComponent<SpriteRenderer>().color = Color.blue;
+                m_SmallFireEmitter = (GameObject)Instantiate(m_SmallFireEmitterObject, transform.position, Quaternion.identity);
+                m_SmallFireEmitter.transform.position = new Vector3(
+                    m_SmallFireEmitter.transform.position.x + GetComponent<SpriteRenderer>().bounds.size.x / 2,
+                    m_SmallFireEmitter.transform.position.y + GetComponent<SpriteRenderer>().bounds.size.y / 2,
+                    -0.2f);
                 break;
             case BookState.Inferno:
-                GetComponent<SpriteRenderer>().color = Color.red;
+                m_LargeFireEmitter = (GameObject)Instantiate(m_LargeFireEmitterObject, transform.position, Quaternion.identity);
+                m_LargeFireEmitter.transform.position = new Vector3(
+                    m_LargeFireEmitter.transform.position.x + GetComponent<SpriteRenderer>().bounds.size.x / 2,
+                    m_LargeFireEmitter.transform.position.y + GetComponent<SpriteRenderer>().bounds.size.y / 2,
+                    -0.2f);
                 break;
         }
     }
@@ -108,6 +122,25 @@ public class GridCell : MonoBehaviour
         {
             return;
         }
+
+        if(other.tag == "Breath")
+        {
+            switch(m_CurrentBookState)
+            {
+                case BookState.Smoking:
+                    ChangeBookState(BookState.Normal);
+                    Destroy(m_SmokeEmitter);
+                    break;
+                case BookState.OnFire:
+                    ChangeBookState(BookState.Smoking);
+                    Destroy(m_SmallFireEmitter);
+                    break;
+                case BookState.Inferno:
+                    ChangeBookState(BookState.OnFire);
+                    Destroy(m_LargeFireEmitter);
+                    break;
+            }
+        }
     }
 
     void Reset()
@@ -116,7 +149,6 @@ public class GridCell : MonoBehaviour
         m_HasStartedSmoking = false;
         m_SmokeTimer = m_TimeToSwitchFromSmokeToFire;
         m_FireTimer = m_TimeToSwitchFromFireToInferno;
-        GetComponent<SpriteRenderer>().color = Color.white;
     }
 
 
