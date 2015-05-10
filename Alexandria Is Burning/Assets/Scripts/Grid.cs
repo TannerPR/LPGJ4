@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class Grid : MonoBehaviour 
+public class Grid : MonoBehaviour
 {
     public int m_Width = 5;
     public int m_Height = 6;
@@ -16,13 +16,13 @@ public class Grid : MonoBehaviour
 
     public List<CellInfo> listOfGridCellInfo = new List<CellInfo>();
 
-	void Start () 
+    void Start()
     {
         m_Grid = new GameObject[m_Width, m_Height];
         m_HorizontalSpacing = m_GridCell.GetComponent<SpriteRenderer>().bounds.size.x;
         m_VerticalSpacing = m_ShelfObject.GetComponent<SpriteRenderer>().bounds.size.y + m_GridCell.GetComponent<SpriteRenderer>().bounds.size.y;
         GenerateGrid();
-	}
+    }
 
     private void GenerateGrid()
     {
@@ -39,7 +39,7 @@ public class Grid : MonoBehaviour
 
                 gridObj.GetComponent<SpriteRenderer>().sprite = listOfGridCellInfo[m_Counter].sprite;
 
-                if(listOfGridCellInfo[m_Counter].sprite != null)
+                if (listOfGridCellInfo[m_Counter].sprite != null)
                 {
                     gridObj.GetComponent<SpriteRenderer>().sprite = listOfGridCellInfo[m_Counter].sprite;
                     gridObj.GetComponent<GridCell>().m_IsABook = true;
@@ -54,6 +54,97 @@ public class Grid : MonoBehaviour
 
     void Update()
     {
+        CheckForFires();
+    }
 
+    void CheckForFires()
+    {
+        for (int y = 0; y < m_Height; ++y)
+        {
+            for (int x = 0; x < m_Width; ++x)
+            {
+                if (m_Grid[x, y].GetComponent<GridCell>().m_IsOnFire)
+                {
+                    SpreadSmoke(x, y);
+                }
+            }
+        }
+    }
+
+    void SpreadSmoke(int x, int y)
+    {
+        if (x == 0) // Left Column
+        {
+            if (y == 0) //Bottom Left Corner
+            {
+                if (!m_Grid[x, y + 1].GetComponent<GridCell>().m_HasStartedSmoking) { m_Grid[x, y + 1].GetComponent<GridCell>().ChangeBookState(GridCell.BookState.Smoking); }
+                if (!m_Grid[x + 1, y + 1].GetComponent<GridCell>().m_HasStartedSmoking) { m_Grid[x + 1, y + 1].GetComponent<GridCell>().ChangeBookState(GridCell.BookState.Smoking); }
+                if (!m_Grid[x + 1, y].GetComponent<GridCell>().m_HasStartedSmoking) { m_Grid[x + 1, y].GetComponent<GridCell>().ChangeBookState(GridCell.BookState.Smoking); }
+            }
+            else if (y == m_Height - 1) // Top Left Corner
+            {
+                if (!m_Grid[x + 1, y].GetComponent<GridCell>().m_HasStartedSmoking) { m_Grid[x + 1, y].GetComponent<GridCell>().ChangeBookState(GridCell.BookState.Smoking); }
+                if (!m_Grid[x, y - 1].GetComponent<GridCell>().m_HasStartedSmoking) { m_Grid[x, y - 1].GetComponent<GridCell>().ChangeBookState(GridCell.BookState.Smoking); }
+                if (!m_Grid[x + 1, y - 1].GetComponent<GridCell>().m_HasStartedSmoking) { m_Grid[x + 1, y - 1].GetComponent<GridCell>().ChangeBookState(GridCell.BookState.Smoking); }
+            }
+            else
+            {
+                if (!m_Grid[x, y + 1].GetComponent<GridCell>().m_HasStartedSmoking) { m_Grid[x, y + 1].GetComponent<GridCell>().ChangeBookState(GridCell.BookState.Smoking); }
+                if (!m_Grid[x + 1, y + 1].GetComponent<GridCell>().m_HasStartedSmoking) { m_Grid[x + 1, y + 1].GetComponent<GridCell>().ChangeBookState(GridCell.BookState.Smoking); }
+                if (!m_Grid[x + 1, y].GetComponent<GridCell>().m_HasStartedSmoking) { m_Grid[x + 1, y].GetComponent<GridCell>().ChangeBookState(GridCell.BookState.Smoking); }
+                if (!m_Grid[x, y - 1].GetComponent<GridCell>().m_HasStartedSmoking) { m_Grid[x, y - 1].GetComponent<GridCell>().ChangeBookState(GridCell.BookState.Smoking); }
+                if (!m_Grid[x + 1, y - 1].GetComponent<GridCell>().m_HasStartedSmoking) { m_Grid[x + 1, y - 1].GetComponent<GridCell>().ChangeBookState(GridCell.BookState.Smoking); }
+            }
+        }
+        else if (x == m_Width - 1) //Right Column
+        {
+            if (y == 0) //Bottom Right Corner
+            {
+                if (!m_Grid[x - 1, y + 1].GetComponent<GridCell>().m_HasStartedSmoking) { m_Grid[x - 1, y + 1].GetComponent<GridCell>().ChangeBookState(GridCell.BookState.Smoking); }
+                if (!m_Grid[x, y + 1].GetComponent<GridCell>().m_HasStartedSmoking) { m_Grid[x, y + 1].GetComponent<GridCell>().ChangeBookState(GridCell.BookState.Smoking); }
+                if (!m_Grid[x - 1, y].GetComponent<GridCell>().m_HasStartedSmoking) { m_Grid[x - 1, y].GetComponent<GridCell>().ChangeBookState(GridCell.BookState.Smoking); }
+            }
+            else if (y == m_Height - 1) //Top Right Corner
+            {
+                if (!m_Grid[x - 1, y].GetComponent<GridCell>().m_HasStartedSmoking) { m_Grid[x - 1, y].GetComponent<GridCell>().ChangeBookState(GridCell.BookState.Smoking); }
+                if (!m_Grid[x - 1, y - 1].GetComponent<GridCell>().m_HasStartedSmoking) { m_Grid[x - 1, y - 1].GetComponent<GridCell>().ChangeBookState(GridCell.BookState.Smoking); }
+                if (!m_Grid[x, y - 1].GetComponent<GridCell>().m_HasStartedSmoking) { m_Grid[x, y - 1].GetComponent<GridCell>().ChangeBookState(GridCell.BookState.Smoking); }
+            }
+            else
+            {
+                if (!m_Grid[x - 1, y + 1].GetComponent<GridCell>().m_HasStartedSmoking) { m_Grid[x - 1, y + 1].GetComponent<GridCell>().ChangeBookState(GridCell.BookState.Smoking); }
+                if (!m_Grid[x, y + 1].GetComponent<GridCell>().m_HasStartedSmoking) { m_Grid[x, y + 1].GetComponent<GridCell>().ChangeBookState(GridCell.BookState.Smoking); }
+                if (!m_Grid[x - 1, y].GetComponent<GridCell>().m_HasStartedSmoking) { m_Grid[x - 1, y].GetComponent<GridCell>().ChangeBookState(GridCell.BookState.Smoking); }
+                if (!m_Grid[x - 1, y - 1].GetComponent<GridCell>().m_HasStartedSmoking) { m_Grid[x - 1, y - 1].GetComponent<GridCell>().ChangeBookState(GridCell.BookState.Smoking); }
+                if (!m_Grid[x, y - 1].GetComponent<GridCell>().m_HasStartedSmoking) { m_Grid[x, y - 1].GetComponent<GridCell>().ChangeBookState(GridCell.BookState.Smoking); }
+            }
+        }
+        else if (y == 0) // Bottom Row
+        {
+            if (!m_Grid[x - 1, y + 1].GetComponent<GridCell>().m_HasStartedSmoking) { m_Grid[x - 1, y + 1].GetComponent<GridCell>().ChangeBookState(GridCell.BookState.Smoking); }
+            if (!m_Grid[x, y + 1].GetComponent<GridCell>().m_HasStartedSmoking) { m_Grid[x, y + 1].GetComponent<GridCell>().ChangeBookState(GridCell.BookState.Smoking); }
+            if (!m_Grid[x + 1, y + 1].GetComponent<GridCell>().m_HasStartedSmoking) { m_Grid[x + 1, y + 1].GetComponent<GridCell>().ChangeBookState(GridCell.BookState.Smoking); }
+            if (!m_Grid[x - 1, y].GetComponent<GridCell>().m_HasStartedSmoking) { m_Grid[x - 1, y].GetComponent<GridCell>().ChangeBookState(GridCell.BookState.Smoking); }
+            if (!m_Grid[x + 1, y].GetComponent<GridCell>().m_HasStartedSmoking) { m_Grid[x + 1, y].GetComponent<GridCell>().ChangeBookState(GridCell.BookState.Smoking); }
+        }
+        else if (y == m_Height - 1) //Top Row
+        {
+            if (!m_Grid[x - 1, y].GetComponent<GridCell>().m_HasStartedSmoking) { m_Grid[x - 1, y].GetComponent<GridCell>().ChangeBookState(GridCell.BookState.Smoking); }
+            if (!m_Grid[x + 1, y].GetComponent<GridCell>().m_HasStartedSmoking) { m_Grid[x + 1, y].GetComponent<GridCell>().ChangeBookState(GridCell.BookState.Smoking); }
+            if (!m_Grid[x - 1, y - 1].GetComponent<GridCell>().m_HasStartedSmoking) { m_Grid[x - 1, y - 1].GetComponent<GridCell>().ChangeBookState(GridCell.BookState.Smoking); }
+            if (!m_Grid[x, y - 1].GetComponent<GridCell>().m_HasStartedSmoking) { m_Grid[x, y - 1].GetComponent<GridCell>().ChangeBookState(GridCell.BookState.Smoking); }
+            if (!m_Grid[x + 1, y - 1].GetComponent<GridCell>().m_HasStartedSmoking) { m_Grid[x + 1, y - 1].GetComponent<GridCell>().ChangeBookState(GridCell.BookState.Smoking); }
+        }
+        else
+        {
+            if (!m_Grid[x - 1, y + 1].GetComponent<GridCell>().m_HasStartedSmoking) { m_Grid[x - 1, y + 1].GetComponent<GridCell>().ChangeBookState(GridCell.BookState.Smoking); }
+            if (!m_Grid[x, y + 1].GetComponent<GridCell>().m_HasStartedSmoking) { m_Grid[x, y + 1].GetComponent<GridCell>().ChangeBookState(GridCell.BookState.Smoking); }
+            if (!m_Grid[x + 1, y + 1].GetComponent<GridCell>().m_HasStartedSmoking) { m_Grid[x + 1, y + 1].GetComponent<GridCell>().ChangeBookState(GridCell.BookState.Smoking); }
+            if (!m_Grid[x - 1, y].GetComponent<GridCell>().m_HasStartedSmoking) { m_Grid[x - 1, y].GetComponent<GridCell>().ChangeBookState(GridCell.BookState.Smoking); }
+            if (!m_Grid[x + 1, y].GetComponent<GridCell>().m_HasStartedSmoking) { m_Grid[x + 1, y].GetComponent<GridCell>().ChangeBookState(GridCell.BookState.Smoking); }
+            if (!m_Grid[x - 1, y - 1].GetComponent<GridCell>().m_HasStartedSmoking) { m_Grid[x - 1, y - 1].GetComponent<GridCell>().ChangeBookState(GridCell.BookState.Smoking); }
+            if (!m_Grid[x, y - 1].GetComponent<GridCell>().m_HasStartedSmoking) { m_Grid[x, y - 1].GetComponent<GridCell>().ChangeBookState(GridCell.BookState.Smoking); }
+            if (!m_Grid[x + 1, y - 1].GetComponent<GridCell>().m_HasStartedSmoking) { m_Grid[x + 1, y - 1].GetComponent<GridCell>().ChangeBookState(GridCell.BookState.Smoking); }
+        }
     }
 }
