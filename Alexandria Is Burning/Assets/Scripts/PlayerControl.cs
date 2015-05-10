@@ -10,6 +10,12 @@ public class PlayerControl : MonoBehaviour
     public float m_GroundedHeight = 5.0f;
     public float m_BlowCooldown   = 1.0f;
 
+    private float m_BlowTimer;
+    private bool m_IsBlowing = false;
+
+    public GameObject m_BlowObject;
+    private GameObject m_TempBlowZone;
+
     // Exposed Sprite Variables
     public Sprite[] m_Sprites;
 
@@ -33,6 +39,8 @@ public class PlayerControl : MonoBehaviour
         // Set the player to Idle
         m_ELibrarianState = LibrarianState.e_IDLE;
 
+        m_BlowTimer = m_BlowCooldown;
+
         if (m_Sprites == null)
         {
             Debug.Log("WARNING: Sprites aren't initialized");
@@ -45,6 +53,34 @@ public class PlayerControl : MonoBehaviour
         UpdatePlayerMovement(m_IsGrounded);
         UpdatePlayerSprite();
         Debug.Log(m_ELibrarianState);
+
+        if(m_IsBlowing)
+        {
+            if (m_BlowTimer <= 0)
+            {
+                m_BlowTimer = m_BlowCooldown;
+                m_IsBlowing = false;
+                Destroy(m_TempBlowZone);
+            }
+            m_BlowTimer -= Time.deltaTime;
+        }
+
+        if(Input.GetKeyDown(KeyCode.Space) && !m_IsBlowing)
+        {
+            m_IsBlowing = true;
+            m_TempBlowZone = (GameObject)Instantiate(m_BlowObject, transform.position, Quaternion.identity);
+
+            if(m_EPlayerFaceDirection == PlayerFaceDirection.e_FacingLeft)
+            {
+                m_TempBlowZone.transform.position = new Vector3(transform.position.x - 1, transform.position.y, 0.0f);
+            }
+            else
+            {
+                m_TempBlowZone.transform.position = new Vector3(transform.position.x + 1, transform.position.y, 0.0f);
+            }
+            
+        }
+
 	}
 
     // Physics updates are done here
@@ -90,15 +126,17 @@ public class PlayerControl : MonoBehaviour
         {
             m_PlayerBody.AddForce(transform.right * m_Speed);
             m_ELibrarianState = LibrarianState.e_RUNNING;
+            m_EPlayerFaceDirection = PlayerFaceDirection.e_FacingRight;
         }
         // Move Left
         if (Input.GetAxis("Horizontal") < 0)
         {
             m_PlayerBody.AddForce(-transform.right * m_Speed);
             m_ELibrarianState = LibrarianState.e_RUNNING;
+            m_EPlayerFaceDirection = PlayerFaceDirection.e_FacingLeft;
         }
         // Jump
-        if (Input.GetAxis("Jump") > 0 && 
+        if (Input.GetAxis("Vertical") > 0 && 
             isGrounded &&
             m_JumpTimer > m_JumpCooldown)
         {
@@ -106,7 +144,6 @@ public class PlayerControl : MonoBehaviour
             m_PlayerBody.AddForce(transform.up * m_JumpForce);
             m_ELibrarianState = LibrarianState.e_JUMPING;
         }
-
     }
 
     bool PlayerIsGroundedCheck()
@@ -145,6 +182,8 @@ public class PlayerControl : MonoBehaviour
 
     LibrarianState m_ELibrarianState;
 
+    PlayerFaceDirection m_EPlayerFaceDirection = PlayerFaceDirection.e_FacingLeft;
+
     enum LibrarianState
     {
         e_IDLE,
@@ -152,5 +191,11 @@ public class PlayerControl : MonoBehaviour
         e_JUMPING,
         e_FALLING,
         e_BLOWING,  
+    }
+
+    enum PlayerFaceDirection
+    {
+        e_FacingLeft,
+        e_FacingRight
     }
 }
