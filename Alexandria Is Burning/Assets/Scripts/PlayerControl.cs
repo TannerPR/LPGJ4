@@ -92,55 +92,38 @@ public class PlayerControl : MonoBehaviour
 
     void UpdatePlayerSprite()
     {
-        //Debug.Log(m_SpriteTimer);
-        
         switch(m_ELibrarianState)
         {
             case LibrarianState.e_IDLE:
-                Debug.Log("igot in idle case");
-                //TODO: 0, 1, 2, 1, ~ repeat
-                // fruit.GetComponent<SpriteRenderer>().sprite = fruitSprites[9];
-                //for (int i = 0; i < 2; i++)
-                //{
-                //    if (m_SpriteTimer < 120)
-                //    {
-                //        m_PlayerSprite.sprite = m_Sprites[i];
-                //    }
-                //    m_SpriteTimer = 0;
-                //}
+                m_PlayerSprite.sprite = m_Sprites[7];
                 break;
 
             case LibrarianState.e_RUNNING_RIGHT:
-                Debug.Log("igot in the running right case");
-                //TODO: 0, 1, 2 , 3 ~ repeat
                     if(m_SpriteTimer >= 0)
                         m_PlayerSprite.sprite = m_Sprites[0];
 
-                    if(m_SpriteTimer >= 200)
+                    if(m_SpriteTimer >= 30)
                         m_PlayerSprite.sprite = m_Sprites[1];
 
-                    if (m_SpriteTimer >= 300)
+                    if (m_SpriteTimer >= 60)
                         m_PlayerSprite.sprite = m_Sprites[2];
 
-                    if (m_SpriteTimer >= 400)
+                    if (m_SpriteTimer >= 90)
                         m_PlayerSprite.sprite = m_Sprites[3];
 
-                    else if (m_SpriteTimer >= 240)
+                    else if (m_SpriteTimer >= 120)
                         m_SpriteTimer = 0;
                 break;
 
             case LibrarianState.e_RUNNING_LEFT:
-                Debug.Log("igot in the running left case");
-
-                //TODO: 0, 1, 0 , 2 ~ repeats
                 m_PlayerSprite.sprite = m_Sprites[1];
                 break;
 
             case LibrarianState.e_JUMPING:
-                Debug.Log("igot in the running jumpin case");
-
-                //TODO: 1 ~ hold
                 m_PlayerSprite.sprite = m_Sprites[2];
+                break;
+            default:
+                Debug.Log("I hit the default!");
                 break;
         }
     }
@@ -148,15 +131,13 @@ public class PlayerControl : MonoBehaviour
     void UpdatePlayerMovement(bool isGrounded)
     {
         // Move Right
-        //if (Input.GetAxis("Horizontal") > 0)
-        if(Input.GetKey(KeyCode.D))
+        if (Input.GetAxis("Horizontal") > 0)
         {
             m_PlayerBody.AddForce(transform.right * m_Speed);
             m_ELibrarianState = LibrarianState.e_RUNNING_RIGHT;
         }
         // Move Left
-        //if (Input.GetAxis("Horizontal") < 0)
-        if (Input.GetKey(KeyCode.A))
+        if (Input.GetAxis("Horizontal") < 0)
         {
             m_PlayerBody.AddForce(-transform.right * m_Speed);
             m_ELibrarianState = LibrarianState.e_RUNNING_LEFT;
@@ -171,10 +152,11 @@ public class PlayerControl : MonoBehaviour
             m_ELibrarianState = LibrarianState.e_JUMPING;
         }
         // Idle
-        //else
-        //{
-        //    m_ELibrarianState = LibrarianState.e_IDLE;
-        //}
+        else
+        {
+            Debug.Log("i hit my idle");
+            m_ELibrarianState = LibrarianState.e_IDLE;
+        }
     }
 
     void PlayerIsGroundedCheck()
@@ -185,13 +167,10 @@ public class PlayerControl : MonoBehaviour
 
         RaycastHit2D aHit = Physics2D.Raycast(playerFeet, -transform.up);
 
-        Debug.Log(aHit.distance);
-
         if(aHit.collider != null &&
            aHit.collider.tag == "Ground" && 
            aHit.distance <= m_GroundedHeight)
         {
-            //Debug.Log("Grounded!");
             m_IsGrounded = true;
         }
 
