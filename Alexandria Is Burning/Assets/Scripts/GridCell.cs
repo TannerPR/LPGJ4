@@ -113,7 +113,7 @@ public class GridCell : MonoBehaviour
 
     void OnMouseDown()
     {
-        ChangeBookState(BookState.Smoking);
+        if (m_CurrentBookState == BookState.Normal) { ChangeBookState(BookState.Smoking); }
     }
 
     void OnTriggerEnter2D(Collider2D other)
@@ -149,6 +149,10 @@ public class GridCell : MonoBehaviour
         m_HasStartedSmoking = false;
         m_SmokeTimer = m_TimeToSwitchFromSmokeToFire;
         m_FireTimer = m_TimeToSwitchFromFireToInferno;
+
+        if (m_SmokeEmitter != null) { Destroy(m_SmokeEmitter); }
+        if (m_SmallFireEmitter != null) { Destroy(m_SmallFireEmitter); }
+        if (m_LargeFireEmitter != null) { Destroy(m_LargeFireEmitter); }
     }
 
 
