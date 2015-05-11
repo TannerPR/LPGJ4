@@ -132,11 +132,11 @@ public class GridCell : MonoBehaviour
                     Destroy(m_SmokeEmitter);
                     break;
                 case BookState.OnFire:
-                    ChangeBookState(BookState.Smoking);
+                    ChangeBookState(BookState.Normal);
                     Destroy(m_SmallFireEmitter);
                     break;
                 case BookState.Inferno:
-                    ChangeBookState(BookState.OnFire);
+                    ChangeBookState(BookState.Normal);
                     Destroy(m_LargeFireEmitter);
                     break;
             }
