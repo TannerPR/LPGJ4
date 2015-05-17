@@ -1,19 +1,19 @@
 fileFormatVersion: 2
 guid: 9932dad756dbe21489cb8ae1fbf9b1fe
-timeCreated: 1431297558
+timeCreated: 1431826096
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
-    21300000: NewBookSprites_0
-    21300002: NewBookSprites_1
-    21300004: NewBookSprites_2
-    21300006: NewBookSprites_3
-    21300008: NewBookSprites_4
-    21300010: NewBookSprites_5
+    21300000: Bookcase - Top
+    21300002: Bookcase - Left
+    21300004: Bookcase - Back
+    21300006: Bookcase - Right
+    21300008: Bookcase - Shelf
+    21300010: Bookcase - Bottom
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
-    enableMipMap: 1
+    enableMipMap: 0
     linearTexture: 0
     correctGamma: 0
     fadeOut: 0
@@ -55,7 +55,7 @@ TextureImporter:
   buildTargetSettings: []
   spriteSheet:
     sprites:
-    - name: NewBookSprites_0
+    - name: Bookcase - Top
       rect:
         serializedVersion: 2
         x: 108
@@ -65,7 +65,7 @@ TextureImporter:
       alignment: 0
       pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: NewBookSprites_1
+    - name: Bookcase - Left
       rect:
         serializedVersion: 2
         x: 82
@@ -75,7 +75,7 @@ TextureImporter:
       alignment: 0
       pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: NewBookSprites_2
+    - name: Bookcase - Back
       rect:
         serializedVersion: 2
         x: 134
@@ -84,8 +84,8 @@ TextureImporter:
         height: 96
       alignment: 6
       pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-    - name: NewBookSprites_3
+      border: {x: 0, y: 0, z: 0, w: 1}
+    - name: Bookcase - Right
       rect:
         serializedVersion: 2
         x: 636
@@ -95,7 +95,7 @@ TextureImporter:
       alignment: 0
       pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: NewBookSprites_4
+    - name: Bookcase - Shelf
       rect:
         serializedVersion: 2
         x: 123
@@ -105,7 +105,7 @@ TextureImporter:
       alignment: 0
       pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: NewBookSprites_5
+    - name: Bookcase - Bottom
       rect:
         serializedVersion: 2
         x: 131
